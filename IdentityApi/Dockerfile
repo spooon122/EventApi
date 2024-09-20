@@ -13,6 +13,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["IdentityApi/IdentityApi.csproj", "IdentityApi/"]
+COPY ["EventApi.ServiceDefaults/EventApi.ServiceDefaults.csproj", "EventApi.ServiceDefaults/"]
 RUN dotnet restore "./IdentityApi/IdentityApi.csproj"
 COPY . .
 WORKDIR "/src/IdentityApi"

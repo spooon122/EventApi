@@ -1,11 +1,13 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var postgres = builder.AddPostgres("postgres");
-var identityDb = postgres.AddDatabase("identitydb");
+var postgres = builder.AddPostgres("pg")
+                      .WithPgAdmin();
+var postgresdb = postgres.AddDatabase("postgres");
 
 var identity = builder.AddProject<Projects.IdentityApi>("identity")
     .WithExternalHttpEndpoints()
-    .WithReference(identityDb);
+    .WithReference(postgresdb);
+
 
 builder.AddProject<Projects.EventApi>("event-api")
     .WithExternalHttpEndpoints()

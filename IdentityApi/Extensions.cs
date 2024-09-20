@@ -1,24 +1,17 @@
 ﻿using IdentityApi.DataAccess.Models;
 using IdentityApi.DataAccess;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace IdentityApi
 {
     public static class Extensions
     {
-        public static IServiceCollection AddIdentityDb(this IServiceCollection services, WebApplication builder)
+        public static IServiceCollection AddIdentityDb(this IServiceCollection services)
         {
             services.AddIdentity<User, IdentityRole>()
                     .AddEntityFrameworkStores<UserDbContext>()
                     .AddDefaultTokenProviders();
-
-            services.AddDbContext<UserDbContext>(options =>
-            {
-                var connectionString = builder.Configuration.GetConnectionString(nameof(UserDbContext));
-                options.UseNpgsql(builder.Configuration.GetConnectionString(connectionString));
-            });
 
             return services;
                                  

@@ -4,9 +4,9 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>e5c23378-ab21-4d13-ba9c-088141c51470</ProjectGuid>
+    <ProjectGuid>48b5637b-ec4b-4bea-a2f6-9d085dc2504e</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/auth</DockerServiceUrl>
     <DockerServiceName>identityapi</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>

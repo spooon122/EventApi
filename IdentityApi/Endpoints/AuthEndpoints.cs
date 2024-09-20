@@ -14,8 +14,7 @@ namespace IdentityApi.Endpoints
             auth.MapPost("/register", async ([FromBody] RegisterUserRequest request, UserManager<User> userManager) =>
             {
                 var existedUser = userManager.FindByEmailAsync(request.Email!);
-                if (existedUser != null)
-                    return Results.BadRequest("user is already registered");
+                
                 var user = new User { UserName = request.Username, Email = request.Email};
 
                 var result = await userManager.CreateAsync(user, request.Password);
