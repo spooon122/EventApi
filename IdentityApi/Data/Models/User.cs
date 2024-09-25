@@ -4,5 +4,6 @@ namespace IdentityApi.DataAccess.Models
 {
     public class User : IdentityUser
     {
+        
     }
 }

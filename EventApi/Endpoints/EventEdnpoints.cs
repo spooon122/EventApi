@@ -3,7 +3,7 @@ using EventApi.Data.Contracts;
 using EventApi.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EventApi.endpoints
+namespace EventApi.Endpoints
 {
     public static class EventEdnpoints
     {
@@ -16,9 +16,14 @@ namespace EventApi.endpoints
                 return await service.CreateEventAsync(request, db, cancellationToken);
             });
 
-            events.MapGet("/", async (IEventService service, [FromQuery] Guid id, EventDbContext db, CancellationToken cancellationToken = default) => 
+            events.MapGet("/{id}", async (IEventService service, Guid id, EventDbContext db, CancellationToken cancellationToken = default) => 
             {
                 return await service.GetByIdAsync(id, db, cancellationToken);
+            });
+
+            events.MapGet("/", async (IEventService service, EventDbContext db, CancellationToken cancellationToken = default) =>
+            {
+                return await service.GetAllEventsAsync(db, cancellationToken);
             });
         }
     }

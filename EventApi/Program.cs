@@ -1,7 +1,7 @@
 using EventApi.Data;
 using EventApi.Data.Interfaces;
-using EventApi.Data.Repository;
-using EventApi.endpoints;
+using EventApi.Data.Services;
+using EventApi.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 

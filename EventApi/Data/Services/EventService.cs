@@ -2,8 +2,9 @@
 using EventApi.Data.Interfaces;
 using EventApi.Data.Models;
 using EventApi.Data.Models.Dtos;
+using Microsoft.EntityFrameworkCore;
 
-namespace EventApi.Data.Repository
+namespace EventApi.Data.Services
 {
     public class EventService(EventDbContext db) : IEventService
     {
@@ -34,6 +35,11 @@ namespace EventApi.Data.Repository
                 StartDate = eventEntity.StartDate
             };
             return Results.Ok(response);
+        }
+
+        public async Task<IResult> GetAllEventsAsync(EventDbContext db, CancellationToken cancellationToken = default)
+        {
+            return Results.Ok(await db.Events.ToListAsync(cancellationToken));
         }
     }
 }
