@@ -27,7 +27,7 @@ namespace IdentityApi
                 options.SlidingExpiration = true;
             });
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
-                               opt.TokenLifespan = TimeSpan.FromMinutes(15));
+                               opt.TokenLifespan = TimeSpan.FromMinutes(30));
 
             return services;
         }

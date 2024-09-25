@@ -13,7 +13,9 @@ namespace IdentityApi.Endpoints
 
             auth.MapPost("/register", async ([FromBody] RegisterUserRequest request, UserManager<User> userManager) =>
             {
-                var existedUser = userManager.FindByEmailAsync(request.Email!);
+                var existedUser = await userManager.FindByEmailAsync(request.Email!);
+                if (existedUser != null)
+                    return Results.BadRequest("this user has been registered");
                 
                 var user = new User { UserName = request.Username, Email = request.Email};
 
@@ -25,20 +27,26 @@ namespace IdentityApi.Endpoints
                 return Results.Ok("User successfully registered");
             });
 
-            auth.MapPost("/login", async ([FromBody] LoginUserRequest request, UserManager<User> userManager, SignInManager<User> signInManager) =>
+            auth.MapPost("/login", async ([FromBody] LoginUserRequest request, [FromQuery] bool useCookies, UserManager<User> userManager, SignInManager<User> signInManager) =>
             {
                 var user = await userManager.FindByEmailAsync(request.Email!);
 
                 if (user == null)
                     return Results.NotFound("User not found");
 
-                var result = await signInManager.PasswordSignInAsync(user, request.Password!, isPersistent: request.RememberMe, lockoutOnFailure: false);
+                var result = await signInManager.PasswordSignInAsync(user, request.Password!, isPersistent: useCookies, lockoutOnFailure: false);
 
                 if (!result.Succeeded)
                     return Results.BadRequest("Invalid login or password");
 
                 return Results.Ok("Successfully sing in");
             });
+
+            auth.MapPost("/logout", async(SignInManager <User> signInManager) =>
+            {
+                await signInManager.SignOutAsync();
+                return Results.Ok();
+            }).RequireAuthorization();
         }
     }
 }
