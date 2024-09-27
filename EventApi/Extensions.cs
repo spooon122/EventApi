@@ -1,8 +1,8 @@
-﻿using IdentityApi.DataAccess;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using EventApi.Data;
 
-namespace IdentityApi
+namespace EventApi
 {
     public static class Extensions
     {

@@ -1,16 +1,28 @@
+using EventApi;
 using EventApi.Data;
 using EventApi.Data.Interfaces;
 using EventApi.Data.Services;
 using EventApi.Endpoints;
+using IdentityApi.Endpoints;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
+builder.Services.AddAuthorization();
+
+builder.Services.AddIdentityDb();
+builder.Services.AddCookieConfig();
+
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddSwaggerGen();
 builder.AddNpgsqlDbContext<EventDbContext>("events");
+builder.AddNpgsqlDbContext<UserDbContext>("postgres");
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
@@ -21,8 +33,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.EventsEndpoits();
+app.UseAuthentication();
+app.UseAuthorization();
 
+app.UseHttpsRedirection();
+
+app.EventsEndpoits();
+app.MapAuthEndpoints();
 
 app.Run();

@@ -32,7 +32,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared.Models\Shared.Models.csproj" />
     <ProjectReference Include="..\EventApi.ServiceDefaults\EventApi.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Models\" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
-﻿using IdentityApi.DataAccess.Contracts;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityApi.Endpoints
