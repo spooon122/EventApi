@@ -8,12 +8,21 @@ namespace EventApi.Data.Repositories;
 
 public class EventRepository(EventDbContext context, IHttpContextService httpContextService) : IEventRepository
 {
-    public async Task CreateAsync(CreateEventRequest request, CancellationToken cancellationToken)
+    public async Task<EventDto> CreateAsync(CreateEventRequest request, CancellationToken cancellationToken)
     {
         var userId = httpContextService.GetCurrentUserId();
         var item = new Event(request.Game, userId, request.Name, request.Description, request.StartDate);
         await context.Events.AddAsync(item, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
+        return new EventDto
+        {
+            Id = item.Id,
+            Name = item.Name,
+            GameEntity = item.GameEntity,
+            AuthorId = item.AuthorId,
+            Description = item.Description,
+            StartDate = item.StartDate
+        };
     }
 
     public async Task<EventDto> GetById(Guid id, CancellationToken cancellationToken = default)

@@ -6,7 +6,7 @@ namespace EventApi.Endpoints;
 
 public static class UserEndpoints
 {
-    public static void UsersEndpoits(this WebApplication app)
+    public static void UsersEndpoints(this WebApplication app)
     {
         var users = app.MapGroup("users").RequireAuthorization();
 

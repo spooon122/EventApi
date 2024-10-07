@@ -34,7 +34,7 @@ public class SubscribeRepository(EventDbContext context, IHttpContextService htt
         await context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<string> UnsubscribeEventAsync(Guid eventId,
+    public async Task UnsubscribeEventAsync(Guid eventId,
         CancellationToken cancellationToken = default)
     {
         var userId = httpContextService.GetCurrentUserId();
@@ -54,10 +54,6 @@ public class SubscribeRepository(EventDbContext context, IHttpContextService htt
         }
 
         await context.SaveChangesAsync(cancellationToken);
-
-        var eventEntity = context.Events.FirstOrDefault(e => e.Id == eventId)?.ToString();
-
-        return eventEntity!;
     }
 
     public async Task<List<SubsEventDto>> GetSubs(CancellationToken cancellationToken = default)

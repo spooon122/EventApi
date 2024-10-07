@@ -6,9 +6,9 @@ namespace EventApi.Data.Services
 {
     public class UserService : IUserService
     {
-        public IResult GetUserById(string userId, UserManager<User> userManager)
+        public async Task<IResult> GetUserById(string userId, UserManager<User> userManager)
         {
-            return Results.Ok(userManager.FindByIdAsync(userId));
+            return  Results.Ok(await userManager.FindByIdAsync(userId));
         }
 
         public async Task<IResult> GetUserHistoryAsync(HttpContext httpContext, EventDbContext db, string? userId)

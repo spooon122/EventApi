@@ -19,8 +19,8 @@ public class SubscribeService(ISubscribeRepository subscribeRepository) : ISubsc
     public async Task<IResult> UnsubscribeEventAsync(Guid eventId,
         CancellationToken cancellationToken = default)
     {
-        var response = await subscribeRepository.UnsubscribeEventAsync(eventId, cancellationToken);
-        return Results.Ok(response);
+        await subscribeRepository.UnsubscribeEventAsync(eventId, cancellationToken);
+        return Results.Ok();
     }
 
     public async Task<IResult> GetSubs(

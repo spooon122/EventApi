@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Models.Models;
+
 namespace EventApi.Data
 {
     public sealed class EventDbContext : DbContext
@@ -13,27 +14,26 @@ namespace EventApi.Data
         {
             Database.EnsureCreated();
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Event>()
-                        .Property(e => e.CreatedDate)
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP AT TIME ZONE 'UTC'");
+                .Property(e => e.CreatedDate)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP AT TIME ZONE 'UTC'");
 
             modelBuilder.Entity<Subscription>()
-                        .HasKey(s => new { s.UserId, s.EventId });
+                .HasKey(s => new { s.UserId, s.EventId });
 
 
             modelBuilder.Entity<Subscription>()
-                        .HasOne(s => s.Event)
-                        .WithMany(e => e.Subscriptions)
-                        .HasForeignKey(e => e.EventId);
+                .HasOne(s => s.Event)
+                .WithMany(e => e.Subscriptions)
+                .HasForeignKey(e => e.EventId);
 
             modelBuilder.Entity<EventHistory>()
-                        .HasKey(h => new { h.EventId, h.UserId });
+                .HasKey(h => new { h.EventId, h.UserId });
         }
     }
-
 }

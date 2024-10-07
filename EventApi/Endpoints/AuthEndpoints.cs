@@ -18,12 +18,9 @@ namespace EventApi.Endpoints
                 var user = new User { UserName = request.Username, Email = request.Email };
 
                 var result = await userManager.CreateAsync(user, request.Password);
-                if (!result.Succeeded)
-                {
-                    return Results.BadRequest(result.Errors);
-                }
-
-                return Results.Ok("User successfully registered");
+                return !result.Succeeded
+                    ? Results.BadRequest(result.Errors)
+                    : Results.Ok("User successfully registered");
             });
 
             auth.MapPost("/login",
@@ -38,10 +35,9 @@ namespace EventApi.Endpoints
                     var result = await signInManager.PasswordSignInAsync(user, request.Password!,
                         isPersistent: useCookies, lockoutOnFailure: false);
 
-                    if (!result.Succeeded)
-                        return Results.BadRequest("Invalid login or password");
-
-                    return Results.Ok("Successfully sing in");
+                    return !result.Succeeded
+                        ? Results.BadRequest("Invalid login or password")
+                        : Results.Ok("Successfully sing in");
                 });
 
             auth.MapPost("/logout", async (SignInManager<User> signInManager) =>

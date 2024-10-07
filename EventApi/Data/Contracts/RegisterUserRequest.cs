@@ -1,4 +1,4 @@
-﻿public class RegisterUserRequest
+﻿public class RegisterUserRequest()
 {
     public required string Username { get; set; }
     public string? Email { get; set; }

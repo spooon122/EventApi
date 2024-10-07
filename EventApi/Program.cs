@@ -46,7 +46,7 @@ app.UseAuthorization();
 app.UseHttpsRedirection();
 
 app.EventsEndpoints();
-app.UsersEndpoits();
+app.UsersEndpoints();
 app.MapAuthEndpoints();
 
 app.Run();
