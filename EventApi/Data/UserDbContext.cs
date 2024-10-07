@@ -4,7 +4,7 @@ using Shared.Models.Models;
 
 namespace EventApi.Data
 {
-    public class UserDbContext : IdentityDbContext<User>
+    public sealed class UserDbContext : IdentityDbContext<User>
     {
         public UserDbContext(DbContextOptions<UserDbContext> options)
             : base(options)

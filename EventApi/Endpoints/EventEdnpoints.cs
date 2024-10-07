@@ -1,6 +1,6 @@
 ﻿using EventApi.Data;
 using EventApi.Data.Contracts;
-using EventApi.Data.Interfaces;
+using EventApi.Data.Services.Interfaces;
 
 namespace EventApi.Endpoints
 {
@@ -10,37 +10,27 @@ namespace EventApi.Endpoints
         {
             var events = app.MapGroup("events").RequireAuthorization();
 
-            events.MapPost("/create", async (IEventService service, CreateEventRequest request, EventDbContext db, 
-                HttpContext ctx, CancellationToken cancellationToken = default) =>
-            {
-                return await service.CreateEventAsync(request, db, ctx, cancellationToken);
-            });
+            events.MapPost("/create", async (IEventService service, CreateEventRequest request, EventDbContext db,
+                    HttpContext ctx, CancellationToken cancellationToken = default) =>
+                await service.CreateEventAsync(request, cancellationToken));
 
-            events.MapGet("/{id:guid}", (IEventService service, Guid id, EventDbContext db) => service.GetById(id, db));
-            
-            events.MapGet("/", async (IEventService service, EventDbContext db, 
-                CancellationToken cancellationToken = default) =>
-            {
-                return await service.GetAllEventsAsync(db, cancellationToken);
-            });
+            events.MapGet("/{id:guid}", (IEventService service, Guid id, EventDbContext db) => service.GetEventById(id));
 
-            events.MapPost("/{eventId:guid}/subscribe", async (ISubscribeService service, EventDbContext db, 
-                Guid eventId, HttpContext ctx, CancellationToken cancellationToken = default) =>
-            {
-                return await service.SubscribeToEventAsync(db, eventId, ctx, cancellationToken);
-            });
+            events.MapGet("/", async (IEventService service, EventDbContext db,
+                    CancellationToken cancellationToken = default) =>
+                await service.GetAllEventsAsync(cancellationToken));
 
-            events.MapGet("/subs", async (IEventService service, EventDbContext db, HttpContext ctx, 
-                CancellationToken cancellationToken = default) =>
-            {
-                return await service.GetSubs(db, ctx, cancellationToken);
-            });
+            events.MapPost("/{eventId:guid}/subscribe",
+                async (ISubscribeService service, EventDbContext db, Guid eventId, HttpContext ctx,
+                        CancellationToken cancellationToken = default) =>
+                    await service.SubscribeToEventAsync(db, eventId, ctx, cancellationToken));
 
-            events.MapPost("/unsub/{eventId:guid}", async (ISubscribeService service, EventDbContext db, 
-                Guid eventId, HttpContext ctx, CancellationToken cancellationToken = default) =>
-            {
-                return await service.UnsubscribeEventAsync(db, eventId, ctx, cancellationToken);
-            });
+            events.MapGet("/subs", async (ISubscribeService service, EventDbContext db, HttpContext ctx,
+                CancellationToken cancellationToken = default) => await service.GetSubs(db, ctx, cancellationToken));
+
+            events.MapPost("/unsub/{eventId:guid}", async (ISubscribeService service, EventDbContext db,
+                    Guid eventId, HttpContext ctx, CancellationToken cancellationToken = default) =>
+                await service.UnsubscribeEventAsync(db, eventId, ctx, cancellationToken));
         }
     }
 }

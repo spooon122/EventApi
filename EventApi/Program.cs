@@ -1,9 +1,8 @@
 using EventApi;
 using EventApi.Data;
-using EventApi.Data.Interfaces;
 using EventApi.Data.Services;
+using EventApi.Data.Services.Interfaces;
 using EventApi.Endpoints;
-using IdentityApi.Endpoints;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);

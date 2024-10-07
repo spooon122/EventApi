@@ -1,4 +1,4 @@
-﻿using EventApi.Data.Interfaces;
+﻿using EventApi.Data.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,7 +6,6 @@ namespace EventApi.Data.Services
 {
     public class UserService : IUserService
     {
-
         public IResult GetUserById(string userId, UserManager<User> userManager)
         {
             return Results.Ok(userManager.FindByIdAsync(userId));

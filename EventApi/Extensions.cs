@@ -9,11 +9,10 @@ namespace EventApi
         public static IServiceCollection AddIdentityDb(this IServiceCollection services)
         {
             services.AddIdentity<User, IdentityRole>()
-                    .AddEntityFrameworkStores<UserDbContext>()
-                    .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<UserDbContext>()
+                .AddDefaultTokenProviders();
 
             return services;
-                                 
         }
 
         public static IServiceCollection AddCookieConfig(this IServiceCollection services)
@@ -26,7 +25,7 @@ namespace EventApi
                 options.SlidingExpiration = true;
             });
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
-                               opt.TokenLifespan = TimeSpan.FromMinutes(30));
+                opt.TokenLifespan = TimeSpan.FromMinutes(30));
 
             return services;
         }

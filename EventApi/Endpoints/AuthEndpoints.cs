@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IdentityApi.Endpoints
+namespace EventApi.Endpoints
 {
     public static class AuthEndpoints
     {
@@ -14,33 +14,37 @@ namespace IdentityApi.Endpoints
                 var existedUser = await userManager.FindByEmailAsync(request.Email!);
                 if (existedUser != null)
                     return Results.BadRequest("this user has been registered");
-                
-                var user = new User { UserName = request.Username, Email = request.Email};
+
+                var user = new User { UserName = request.Username, Email = request.Email };
 
                 var result = await userManager.CreateAsync(user, request.Password);
-                if (!result.Succeeded) 
+                if (!result.Succeeded)
                 {
                     return Results.BadRequest(result.Errors);
                 }
+
                 return Results.Ok("User successfully registered");
             });
 
-            auth.MapPost("/login", async ([FromBody] LoginUserRequest request, [FromQuery] bool useCookies, UserManager<User> userManager, SignInManager<User> signInManager) =>
-            {
-                var user = await userManager.FindByEmailAsync(request.Email!);
+            auth.MapPost("/login",
+                async ([FromBody] LoginUserRequest request, [FromQuery] bool useCookies, UserManager<User> userManager,
+                    SignInManager<User> signInManager) =>
+                {
+                    var user = await userManager.FindByEmailAsync(request.Email!);
 
-                if (user == null)
-                    return Results.NotFound("User not found");
+                    if (user == null)
+                        return Results.NotFound("User not found");
 
-                var result = await signInManager.PasswordSignInAsync(user, request.Password!, isPersistent: useCookies, lockoutOnFailure: false);
+                    var result = await signInManager.PasswordSignInAsync(user, request.Password!,
+                        isPersistent: useCookies, lockoutOnFailure: false);
 
-                if (!result.Succeeded)
-                    return Results.BadRequest("Invalid login or password");
+                    if (!result.Succeeded)
+                        return Results.BadRequest("Invalid login or password");
 
-                return Results.Ok("Successfully sing in");
-            });
+                    return Results.Ok("Successfully sing in");
+                });
 
-            auth.MapPost("/logout", async(SignInManager <User> signInManager) =>
+            auth.MapPost("/logout", async (SignInManager<User> signInManager) =>
             {
                 await signInManager.SignOutAsync();
                 return Results.Ok();
