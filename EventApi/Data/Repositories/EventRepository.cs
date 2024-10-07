@@ -8,20 +8,17 @@ namespace EventApi.Data.Repositories;
 
 public class EventRepository(EventDbContext context, IHttpContextService httpContextService) : IEventRepository
 {
-    private readonly IHttpContextService _httpContextService = httpContextService;
-    private readonly EventDbContext _context = context;
-
     public async Task CreateAsync(CreateEventRequest request, CancellationToken cancellationToken)
     {
-        var userId = _httpContextService.GetCurrentUserId();
+        var userId = httpContextService.GetCurrentUserId();
         var item = new Event(request.Game, userId, request.Name, request.Description, request.StartDate);
-        await _context.Events.AddAsync(item, cancellationToken);
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.Events.AddAsync(item, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<EventDto> GetById(Guid id, CancellationToken cancellationToken = default)
     {
-        var item = await _context.Events.FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
+        var item = await context.Events.FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
         if (item != null)
             return new EventDto
             {
@@ -37,6 +34,6 @@ public class EventRepository(EventDbContext context, IHttpContextService httpCon
 
     public async Task<List<Event>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return await _context.Events.ToListAsync(cancellationToken: cancellationToken);
+        return await context.Events.ToListAsync(cancellationToken: cancellationToken);
     }
 }

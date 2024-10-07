@@ -2,7 +2,7 @@
 using Shared.Models.Models;
 namespace EventApi.Data
 {
-    public class EventDbContext : DbContext
+    public sealed class EventDbContext : DbContext
     {
         public DbSet<Event> Events { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }

@@ -17,12 +17,10 @@ namespace EventApi.Data.Services
             return Results.Ok("Event created");
         }
 
-        public IResult GetEventById(Guid id)
+        public async Task<IResult> GetEventById(Guid id)
         {
-            var eventEntity = _repository.GetById(id);
-
-            if (!eventEntity.IsCompletedSuccessfully)
-                return Results.BadRequest(eventEntity.Exception?.Message);
+            var eventEntity = await _repository.GetById(id);
+            
 
             return Results.Ok(eventEntity);
         }
