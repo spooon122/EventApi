@@ -7,6 +7,8 @@ namespace EventApi.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
 
+        public DbSet<EventHistory> EventsHistory { get; set; }
+
         public EventDbContext(DbContextOptions<EventDbContext> options) : base(options)
         {
             Database.EnsureCreated();
@@ -29,6 +31,8 @@ namespace EventApi.Data
                         .WithMany(e => e.Subscriptions)
                         .HasForeignKey(e => e.EventId);
 
+            modelBuilder.Entity<EventHistory>()
+                        .HasKey(h => new { h.EventId, h.UserId });
         }
     }
 

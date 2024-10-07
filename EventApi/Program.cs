@@ -19,7 +19,10 @@ builder.Services.AddCookieConfig();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddSwaggerGen();
+
 builder.AddNpgsqlDbContext<EventDbContext>("events");
 builder.AddNpgsqlDbContext<UserDbContext>("postgres");
 
@@ -38,7 +41,8 @@ app.UseAuthorization();
 
 app.UseHttpsRedirection();
 
-app.EventsEndpoits();
+app.EventsEndpoints();
+app.UsersEndpoits();
 app.MapAuthEndpoints();
 
 app.Run();
