@@ -16,6 +16,6 @@ public static class UserEndpoints
 
         users.MapGet("/users/{userId}/history",
             async (string? userId, IUserService service, HttpContext httpContext, EventDbContext db) =>
-                await service.GetUserHistoryAsync(httpContext, db, userId));
+                await service.GetUserHistoryAsync(httpContext, userId));
     }
 }

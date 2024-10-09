@@ -33,7 +33,7 @@ namespace EventApi.Data
                 .HasForeignKey(e => e.EventId);
 
             modelBuilder.Entity<EventHistory>()
-                .HasKey(h => new { h.EventId, h.UserId });
+                .HasKey(h => new { h.UserId, h.EventId });
         }
     }
 }

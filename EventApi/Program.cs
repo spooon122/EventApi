@@ -13,13 +13,16 @@ builder.AddServiceDefaults();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
 builder.Services.AddAuthorization();
 
+builder.Services.AddMemoryCache();
+builder.AddRedisDistributedCache("cache");
+
 builder.Services.AddIdentityDb();
 builder.Services.AddCookieConfig();
 
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<IEventService, EventService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddScoped<IHttpContextService, HttpContextService>();
 builder.Services.AddScoped<ISubscribeService, SubscribeService>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
